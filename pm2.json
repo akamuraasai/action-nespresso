@@ -1,0 +1,10 @@
+{
+  "apps": [
+    {
+      "name": "action-nespresso",
+      "script": "bin/esm",
+      "watch": true,
+      "merge_logs": true
+    }
+  ]
+}
