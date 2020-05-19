@@ -50,6 +50,7 @@ export const updateDevice = async (
   localDeviceId,
   errorCode,
   tfa,
+  foodPresets,
 ) => {
   // Payload can contain any state data
   const updatePayload = {};
@@ -76,6 +77,11 @@ export const updateDevice = async (
     updatePayload['tfa'] = tfa;
   } else if (tfa !== undefined) {
     updatePayload['tfa'] = '';
+  }
+  if (foodPresets) {
+    updatePayload['attributes'] = {};
+    updatePayload['attributes']['foodPresets'] = foodPresets;
+    updatePayload['attributes']['supportedCookingModes'] = 'BREW';
   }
 
   await db.collection('users')

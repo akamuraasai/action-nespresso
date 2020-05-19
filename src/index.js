@@ -188,9 +188,9 @@ app.onDisconnect(async (body, headers) => {
 expressApp.post('/smarthome', app);
 
 expressApp.post('/smarthome/update', async (req, res) => {
-  const { userId, deviceId, name, nickname, states, localDeviceId, errorCode, tfa } = req.body;
+  const { userId, deviceId, name, nickname, states, localDeviceId, errorCode, tfa, foodPresets } = req.body;
   try {
-    await Firestore.updateDevice(userId, deviceId, name, nickname, states, localDeviceId, errorCode, tfa);
+    await Firestore.updateDevice(userId, deviceId, name, nickname, states, localDeviceId, errorCode, tfa, foodPresets);
     if (localDeviceId || localDeviceId === null) {
       await app.requestSync(userId);
     }
