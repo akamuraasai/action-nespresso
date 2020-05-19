@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+// código extraído da documentação do esm
+// https://github.com/standard-things/esm#readme
+require = require('esm')(module);
+require('dotenv').config();
+module.exports = require('../src/index.js').default;

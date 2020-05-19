@@ -1,0 +1,6 @@
+node_modules/
+.idea/
+src/smart-home-key.json
+src/firebase-admin-key.json
+.DS_Store
+.env
