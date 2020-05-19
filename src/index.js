@@ -204,7 +204,7 @@ expressApp.post('/smarthome/update', async (req, res) => {
   }
 });
 
-const expressServer = expressApp.listen(appPort, async () => {
+const expressServer = expressApp.listen(appPort, '127.0.0.1', async () => {
   const server = expressServer.address();
   const { address, port } = server;
 

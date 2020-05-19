@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "bin/esm"
+    "start": "bin/esm",
+    "debug:machine": "DEBUG_NESPRESSO_MACHINE=true src/makeCoffee.js"
   },
   "dependencies": {
     "@abandonware/noble": "^1.9.2-9",

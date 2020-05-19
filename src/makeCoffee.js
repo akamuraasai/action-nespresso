@@ -96,3 +96,17 @@ export const createInstance = () => {
     init: init(getState),
   };
 };
+
+if (process.env.DEBUG_NESPRESSO_MACHINE) {
+  const nespressoMachine = createInstance();
+  const executeCommandOnMachine = async (state) => {
+    const waitFinish = new Promise((resolve) => {
+      nespressoMachine.init(resolve, state);
+    });
+    await waitFinish;
+  };
+
+  setTimeout(async () => {
+    await executeCommandOnMachine();
+  }, 20000);
+}
