@@ -21,7 +21,7 @@ Auth.registerAuthEndpoints(expressApp);
 
 const appPort = process.env.PORT || Config.expressPort;
 
-const app = smarthome({ jwt, debug: false });
+const app = smarthome({ jwt, debug: true });
 
 const nespressoMachine = createInstance();
 
@@ -204,7 +204,7 @@ expressApp.post('/smarthome/update', async (req, res) => {
   }
 });
 
-const expressServer = expressApp.listen(appPort, '127.0.0.1', async () => {
+const expressServer = expressApp.listen(appPort, async () => {
   const server = expressServer.address();
   const { address, port } = server;
 
@@ -217,6 +217,7 @@ const expressServer = expressApp.listen(appPort, '127.0.0.1', async () => {
         addr: Config.expressPort,
         subdomain: Config.ngrokSubDomain,
       }
+      // const url = await ngrok.connect(Config.expressPort);
       const url = await ngrok.connect(ngrokOptions);
       console.log('');
       console.log('COPY & PASTE NGROK URL BELOW');

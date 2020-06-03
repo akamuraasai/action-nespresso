@@ -68,7 +68,7 @@ const stateChange = async (status) => {
 };
 
 const discover = (setState) => async (peripheral) => {
-  if (peripheral.address === 'e9-c6-dd-63-48-d2') {
+  if (peripheral.address === 'e9-c6-dd-63-48-d2' || peripheral.address === 'e9:c6:dd:63:48:d2') {
     await noble.stopScanningAsync();
     console.log('Cafeteira encontrada.\n');
     setState({ peripheral, ready: true });
