@@ -19,6 +19,17 @@ const volumes = {
   default: '00',
 };
 
+const services = {
+  linux: {
+    carat: [['06aa1910f22a11e39daa0002a5d5c51b'], ['06aa3a41f22a11e39daa0002a5d5c51b']],
+    command: [['06aa1920f22a11e39daa0002a5d5c51b'], ['06aa3a42f22a11e39daa0002a5d5c51b']],
+  },
+  darwin: {
+    carat: [['06aa1910-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a41-f22a-11e3-9daa-0002a5d5c51b']],
+    command: [['06aa1920-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a42-f22a-11e3-9daa-0002a5d5c51b']],
+  },
+};
+
 const getCommand = (volume, temperature) => Buffer.from(
   `0305070400000000${temperatures[temperature] || temperatures.default}${volumes[volume] || volumes.default}`,
   'hex',
@@ -42,8 +53,9 @@ const init = (getState) => async (finishedCb, { currentFoodPreset }) => {
 
   try {
     console.log('Adquirindo serviços...');
-    const { characteristics: [carat] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1910-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a41-f22a-11e3-9daa-0002a5d5c51b']);
-    const { characteristics: [_, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1920-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a42-f22a-11e3-9daa-0002a5d5c51b']);
+    const currentServices = services[process.platform] || services.linux;
+    const { characteristics: [carat] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(currentServices.carat[0], currentServices.carat[1]);
+    const { characteristics: [_, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(currentServices.command[0], currentServices.command[1]);
     console.log('Serviços adquiridos com sucesso.\n');
 
     console.log('Enviando comando de login...');
