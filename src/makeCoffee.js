@@ -55,7 +55,7 @@ const init = (getState) => async (finishedCb, { currentFoodPreset }) => {
     console.log('Adquirindo serviços...');
     const currentServices = services[process.platform] || services.linux;
     const { characteristics: [carat] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(currentServices.carat[0], currentServices.carat[1]);
-    const { characteristics: [_, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(currentServices.command[0], currentServices.command[1]);
+    const { characteristics: [linuxCommand, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(currentServices.command[0], currentServices.command[1]);
     console.log('Serviços adquiridos com sucesso.\n');
 
     console.log('Enviando comando de login...');
@@ -64,7 +64,11 @@ const init = (getState) => async (finishedCb, { currentFoodPreset }) => {
 
     setTimeout(() => {
       console.log('Enviando requisição de café...');
-      command.write(getCommand(currentFoodPreset, 'muito quente'), false);
+      if (process.platform === 'darwin') {
+        command.write(getCommand(currentFoodPreset, 'muito quente'), false);
+      } else {
+        linuxCommand.write(getCommand(currentFoodPreset, 'muito quente'), false);
+      }
       console.log('Café sendo preparado.\n');
 
       setTimeout(async () => {
