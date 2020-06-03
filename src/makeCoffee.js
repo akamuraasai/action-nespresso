@@ -40,24 +40,28 @@ const init = (getState) => async (finishedCb, { currentFoodPreset }) => {
   await peripheral.connectAsync();
   console.log('Cafeteira conectada.\n');
 
-  console.log('Adquirindo serviços...');
-  const { characteristics: [carat] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1910-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a41-f22a-11e3-9daa-0002a5d5c51b']);
-  const { characteristics: [_, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1920-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a42-f22a-11e3-9daa-0002a5d5c51b']);
-  console.log('Serviços adquiridos com sucesso.\n');
+  try {
+    console.log('Adquirindo serviços...');
+    const { characteristics: [carat] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1910-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a41-f22a-11e3-9daa-0002a5d5c51b']);
+    const { characteristics: [_, command] } = await peripheral.discoverSomeServicesAndCharacteristicsAsync(['06aa1920-f22a-11e3-9daa-0002a5d5c51b'], ['06aa3a42-f22a-11e3-9daa-0002a5d5c51b']);
+    console.log('Serviços adquiridos com sucesso.\n');
 
-  console.log('Enviando comando de login...');
-  carat.write(getKey(), false);
-  console.log('Logado com sucesso.\n');
+    console.log('Enviando comando de login...');
+    carat.write(getKey(), false);
+    console.log('Logado com sucesso.\n');
 
-  setTimeout(() => {
-    console.log('Enviando requisição de café...');
-    command.write(getCommand(currentFoodPreset, 'muito quente'), false);
-    console.log('Café sendo preparado.\n');
+    setTimeout(() => {
+      console.log('Enviando requisição de café...');
+      command.write(getCommand(currentFoodPreset, 'muito quente'), false);
+      console.log('Café sendo preparado.\n');
 
-    setTimeout(async () => {
-      await peripheral.disconnectAsync();
+      setTimeout(async () => {
+        await peripheral.disconnectAsync();
+      }, 1000);
     }, 1000);
-  }, 1000);
+  } catch (e) {
+    console.log('error on prep', e);
+  }
 };
 
 const stateChange = async (status) => {
